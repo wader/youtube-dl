@@ -41,9 +41,11 @@ class ExternalFD(FileDownloader):
             self.to_screen('[%s] Interrupted by user' % self.get_basename())
 
         if retval == 0:
-            fsize = os.path.getsize(encodeFilename(tmpfilename))
-            self.to_screen('\r[%s] Downloaded %s bytes' % (self.get_basename(), fsize))
-            self.try_rename(tmpfilename, filename)
+            fsize = 0
+            if tmpfilename != '-':
+                fsize = os.path.getsize(encodeFilename(tmpfilename))
+                self.to_screen('\r[%s] Downloaded %s bytes' % (self.get_basename(), fsize))
+                self.try_rename(tmpfilename, filename)
             self._hook_progress({
                 'downloaded_bytes': fsize,
                 'total_bytes': fsize,
